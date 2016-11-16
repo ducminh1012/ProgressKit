@@ -1132,17 +1132,6 @@
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ejA-gs-jO8" customClass="ProgressBar" customModule="ProgressKit" customModuleProvider="target">
                                 <rect key="frame" x="26" y="91" width="454" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dc8-gX-mO5">
-                                        <rect key="frame" x="209" y="-2" width="37" height="17"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="U4U-hj-nHX">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="progress">
                                         <real key="value" value="0.34999999999999998"/>
@@ -1221,7 +1210,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-151" y="337"/>
+            <point key="canvasLocation" x="-193" y="472"/>
         </scene>
         <!--In Determinate View Controller-->
         <scene sceneID="0yA-Up-0Gd">

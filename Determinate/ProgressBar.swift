@@ -14,6 +14,7 @@ open class ProgressBar: DeterminateAnimation {
 
     var borderLayer = CAShapeLayer()
     var progressLayer = CAShapeLayer()
+    var percentageLabel = CATextLayer()
     
     @IBInspectable open var borderColor: NSColor = NSColor.black {
         didSet {
@@ -23,7 +24,7 @@ open class ProgressBar: DeterminateAnimation {
 
     override func notifyViewRedesigned() {
         super.notifyViewRedesigned()
-        self.layer?.cornerRadius = self.frame.height / 2
+        self.layer?.cornerRadius = 0.0
         borderLayer.borderColor = borderColor.cgColor
         progressLayer.backgroundColor = foreground.cgColor
     }
@@ -32,16 +33,29 @@ open class ProgressBar: DeterminateAnimation {
         super.configureLayers()
 
         borderLayer.frame = self.bounds
-        borderLayer.cornerRadius = borderLayer.frame.height / 2
-        borderLayer.borderWidth = 1.0
+        borderLayer.cornerRadius = 0.0
+        borderLayer.borderWidth = 0.0
         self.layer?.addSublayer(borderLayer)
 
-        progressLayer.frame = NSInsetRect(borderLayer.bounds, 3, 3)
+        progressLayer.frame = NSInsetRect(borderLayer.bounds, 0, 0)
         progressLayer.frame.size.width = (borderLayer.bounds.width - 6)
-        progressLayer.cornerRadius = progressLayer.frame.height / 2
+        progressLayer.cornerRadius = 0.0
         progressLayer.backgroundColor = foreground.cgColor
         borderLayer.addSublayer(progressLayer)
 
+//        percentageLabel.stringValue = "test"
+//        percentageLabel.backgroundColor = NSColor.clear
+//        percentageLabel.layer?.backgroundColor = NSColor.clear.cgColor
+//        percentageLabel.frame = NSRect(x: 0, y: 0, width: 100, height: 20)
+//        percentageLabel.drawsBackground = false
+//        percentageLabel.wantsLayer = true
+////        borderLayer.addSublayer(percentageLabel)
+//        self.addSubview(percentageLabel)
+        percentageLabel.string = "122"
+        percentageLabel.fontSize = 15
+        percentageLabel.isWrapped = true
+        percentageLabel.frame = NSRect(x: 10, y: 10, width: 100, height:100)
+        borderLayer.addSublayer(percentageLabel)
     }
     
     override func updateProgress() {
