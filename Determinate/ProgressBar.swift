@@ -13,8 +13,11 @@ import Cocoa
 open class ProgressBar: DeterminateAnimation {
 
     var borderLayer = CAShapeLayer()
-    var progressLayer = CAShapeLayer()
+    var progressLayer = CAGradientLayer()
     var percentageLabel = CATextLayer()
+    
+    var originColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 1.0)
+    var destColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 0.0)
     
     @IBInspectable open var borderColor: NSColor = NSColor.black {
         didSet {
@@ -40,7 +43,10 @@ open class ProgressBar: DeterminateAnimation {
         progressLayer.frame = NSInsetRect(borderLayer.bounds, 0, 0)
         progressLayer.frame.size.width = (borderLayer.bounds.width - 6)
         progressLayer.cornerRadius = 0.0
-        progressLayer.backgroundColor = foreground.cgColor
+//        progressLayer.backgroundColor = foreground.cgColor
+        progressLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        progressLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        progressLayer.colors = [originColor.cgColor, destColor.cgColor]
         borderLayer.addSublayer(progressLayer)
 
 //        percentageLabel.stringValue = "test"
