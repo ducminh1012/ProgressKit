@@ -15,6 +15,7 @@ open class ProgressBar: DeterminateAnimation {
     var borderLayer = CAShapeLayer()
     var progressLayer = CAGradientLayer()
     var percentageLabel = CATextLayer()
+//    var text = CATextLayer()
     
     var originColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 1.0)
     var destColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 0.0)
@@ -57,11 +58,13 @@ open class ProgressBar: DeterminateAnimation {
 //        percentageLabel.wantsLayer = true
 ////        borderLayer.addSublayer(percentageLabel)
 //        self.addSubview(percentageLabel)
-        percentageLabel.string = "122"
+        percentageLabel.string = "10%"
         percentageLabel.fontSize = 15
+        percentageLabel.contentsScale = NSScreen.main()!.backingScaleFactor
+        percentageLabel.foregroundColor = NSColor.white.cgColor
         percentageLabel.isWrapped = true
-        percentageLabel.frame = NSRect(x: 10, y: 10, width: 100, height:100)
-        borderLayer.addSublayer(percentageLabel)
+        percentageLabel.frame = NSRect(x: borderLayer.frame.width/2 - 10, y: borderLayer.frame.height/2 - 10, width: 40, height:20)
+        progressLayer.addSublayer(percentageLabel)
     }
     
     override func updateProgress() {
