@@ -35,6 +35,13 @@ open class ProgressBar: DeterminateAnimation {
         }
     }
 
+    
+    @IBInspectable open var percentageFont: NSFont = NSFont.boldSystemFont(ofSize: 15) {
+        didSet {
+            notifyViewRedesigned()
+        }
+    }
+
     override func notifyViewRedesigned() {
         super.notifyViewRedesigned()
         self.layer?.cornerRadius = 0.0
@@ -42,6 +49,8 @@ open class ProgressBar: DeterminateAnimation {
         progressLayer.backgroundColor = foreground.cgColor
         progressLayer.colors?[0] = originColor.cgColor
         progressLayer.colors?[1] = destColor.cgColor
+        
+        percentageLayer.font = percentageFont
     }
 
     override func configureLayers() {
@@ -61,6 +70,7 @@ open class ProgressBar: DeterminateAnimation {
         borderLayer.addSublayer(progressLayer)
 
         percentageLayer.string = "0%"
+        percentageLayer.font = percentageFont
         percentageLayer.fontSize = 15
         percentageLayer.contentsScale = NSScreen.main()!.backingScaleFactor
         percentageLayer.foregroundColor = percentageColor.cgColor
