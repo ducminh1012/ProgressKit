@@ -14,11 +14,20 @@ open class ProgressBar: DeterminateAnimation {
 
     var borderLayer = CAShapeLayer()
     var progressLayer = CAGradientLayer()
-    var percentageLabel = CATextLayer()
-//    var text = CATextLayer()
+    var percentageLayer = CATextLayer()
+    var percentageColor = NSColor.white
     
-    var originColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 1.0)
-    var destColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 0.0)
+    @IBInspectable open var originColor: NSColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 1.0) {
+        didSet {
+            notifyViewRedesigned()
+        }
+    }
+    
+    @IBInspectable open var destColor: NSColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 0.0) {
+        didSet {
+            notifyViewRedesigned()
+        }
+    }
     
     @IBInspectable open var borderColor: NSColor = NSColor.black {
         didSet {
@@ -31,6 +40,8 @@ open class ProgressBar: DeterminateAnimation {
         self.layer?.cornerRadius = 0.0
         borderLayer.borderColor = borderColor.cgColor
         progressLayer.backgroundColor = foreground.cgColor
+        progressLayer.colors?[0] = originColor.cgColor
+        progressLayer.colors?[1] = destColor.cgColor
     }
 
     override func configureLayers() {
@@ -42,29 +53,20 @@ open class ProgressBar: DeterminateAnimation {
         self.layer?.addSublayer(borderLayer)
 
         progressLayer.frame = NSInsetRect(borderLayer.bounds, 0, 0)
-        progressLayer.frame.size.width = (borderLayer.bounds.width - 6)
+        progressLayer.frame.size.width = borderLayer.bounds.width
         progressLayer.cornerRadius = 0.0
-//        progressLayer.backgroundColor = foreground.cgColor
         progressLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         progressLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         progressLayer.colors = [originColor.cgColor, destColor.cgColor]
         borderLayer.addSublayer(progressLayer)
 
-//        percentageLabel.stringValue = "test"
-//        percentageLabel.backgroundColor = NSColor.clear
-//        percentageLabel.layer?.backgroundColor = NSColor.clear.cgColor
-//        percentageLabel.frame = NSRect(x: 0, y: 0, width: 100, height: 20)
-//        percentageLabel.drawsBackground = false
-//        percentageLabel.wantsLayer = true
-////        borderLayer.addSublayer(percentageLabel)
-//        self.addSubview(percentageLabel)
-        percentageLabel.string = "10%"
-        percentageLabel.fontSize = 15
-        percentageLabel.contentsScale = NSScreen.main()!.backingScaleFactor
-        percentageLabel.foregroundColor = NSColor.white.cgColor
-        percentageLabel.isWrapped = true
-        percentageLabel.frame = NSRect(x: borderLayer.frame.width/2 - 10, y: borderLayer.frame.height/2 - 10, width: 40, height:20)
-        progressLayer.addSublayer(percentageLabel)
+        percentageLayer.string = "0%"
+        percentageLayer.fontSize = 15
+        percentageLayer.contentsScale = NSScreen.main()!.backingScaleFactor
+        percentageLayer.foregroundColor = percentageColor.cgColor
+        percentageLayer.isWrapped = true
+        percentageLayer.frame = NSRect(x: borderLayer.frame.width/2 - 10, y: borderLayer.frame.height/2 - 10, width: 50, height:20)
+        progressLayer.addSublayer(percentageLayer)
     }
     
     override func updateProgress() {
@@ -74,9 +76,12 @@ open class ProgressBar: DeterminateAnimation {
         } else {
             CATransaction.setDisableActions(true)
         }
+        
+        percentageLayer.string = "\(Int(progress * 100))%"
+        
         let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         CATransaction.setAnimationTimingFunction(timing)
-        progressLayer.frame.size.width = (borderLayer.bounds.width - 6) * progress
+        progressLayer.frame.size.width = borderLayer.bounds.width * progress
         CATransaction.commit()
     }
 }
