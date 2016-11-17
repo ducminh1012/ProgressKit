@@ -15,7 +15,13 @@ open class ProgressBar: DeterminateAnimation {
     var borderLayer = CAShapeLayer()
     var progressLayer = CAGradientLayer()
     var percentageLayer = CATextLayer()
-    var percentageColor = NSColor.white
+    
+    @IBInspectable open var percentageColor: NSColor = NSColor.white {
+        didSet {
+            notifyViewRedesigned()
+        }
+    }
+
     
     @IBInspectable open var originColor: NSColor = NSColor(red: 247/255.0, green: 148/255.0, blue: 29/255.0, alpha: 1.0) {
         didSet {
@@ -51,6 +57,8 @@ open class ProgressBar: DeterminateAnimation {
         progressLayer.colors?[1] = destColor.cgColor
         
         percentageLayer.font = percentageFont
+        
+        setPercentageColor(progress: progress)
     }
 
     override func configureLayers() {
@@ -73,9 +81,10 @@ open class ProgressBar: DeterminateAnimation {
         percentageLayer.font = percentageFont
         percentageLayer.fontSize = 15
         percentageLayer.contentsScale = NSScreen.main()!.backingScaleFactor
-        percentageLayer.foregroundColor = percentageColor.cgColor
+        setPercentageColor(progress: progress)
         percentageLayer.isWrapped = true
-        percentageLayer.frame = NSRect(x: borderLayer.frame.width/2 - 10, y: borderLayer.frame.height/2 - 10, width: 50, height:20)
+        setPercentageFrame(progress: progress)
+//        percentageLayer.frame = NSRect(x: 10, y: progressLayer.frame.height/2 - 10, width: 50, height:20)
         progressLayer.addSublayer(percentageLayer)
     }
     
@@ -92,6 +101,19 @@ open class ProgressBar: DeterminateAnimation {
         let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         CATransaction.setAnimationTimingFunction(timing)
         progressLayer.frame.size.width = borderLayer.bounds.width * progress
+        
+        setPercentageFrame(progress: progress)
+        
+//        percentageLayer.frame = NSRect(x: progressLayer.frame.width/2 - 10, y: progressLayer.frame.height/2 - 10, width: 50, height:20)
         CATransaction.commit()
     }
+    
+    func setPercentageColor(progress: CGFloat){
+        percentageLayer.foregroundColor = progress >= 50.0 ? percentageColor.cgColor : NSColor.black.cgColor
+    }
+    
+    func setPercentageFrame(progress: CGFloat){
+        percentageLayer.frame = progress > 10 ? NSRect(x: progressLayer.frame.width/2 - 10, y: progressLayer.frame.height/2 - 10, width: 50, height:20) : NSRect(x: 0, y: progressLayer.frame.height/2 - 10, width: 50, height:20)
+    }
+    
 }

@@ -19,7 +19,7 @@ open class DeterminateAnimation: BaseView, DeterminableAnimation {
     @IBInspectable open var animated: Bool = true
 
     /// Value of progress now. Range 0..1
-    @IBInspectable open var progress: CGFloat = 0 {
+    @IBInspectable open var progress: CGFloat = 0.0 {
         didSet {
             updateProgress()
         }
