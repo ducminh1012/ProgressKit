@@ -58,7 +58,7 @@ open class ProgressBar: DeterminateAnimation {
         
         percentageLayer.font = percentageFont
         
-        setPercentageColor(progress: progress)
+        setPercentageColor(progress: progress, color: percentageColor)
     }
 
     override func configureLayers() {
@@ -81,7 +81,7 @@ open class ProgressBar: DeterminateAnimation {
         percentageLayer.font = percentageFont
         percentageLayer.fontSize = 15
         percentageLayer.contentsScale = NSScreen.main()!.backingScaleFactor
-        setPercentageColor(progress: progress)
+        setPercentageColor(progress: progress, color: percentageColor)
         percentageLayer.isWrapped = true
         setPercentageFrame(progress: progress)
 //        percentageLayer.frame = NSRect(x: 10, y: progressLayer.frame.height/2 - 10, width: 50, height:20)
@@ -103,13 +103,12 @@ open class ProgressBar: DeterminateAnimation {
         progressLayer.frame.size.width = borderLayer.bounds.width * progress
         
         setPercentageFrame(progress: progress)
-        
-//        percentageLayer.frame = NSRect(x: progressLayer.frame.width/2 - 10, y: progressLayer.frame.height/2 - 10, width: 50, height:20)
+
         CATransaction.commit()
     }
     
-    func setPercentageColor(progress: CGFloat){
-        percentageLayer.foregroundColor = progress >= 50.0 ? percentageColor.cgColor : NSColor.black.cgColor
+    func setPercentageColor(progress: CGFloat, color: NSColor){
+        percentageLayer.foregroundColor = color.cgColor
     }
     
     func setPercentageFrame(progress: CGFloat){
